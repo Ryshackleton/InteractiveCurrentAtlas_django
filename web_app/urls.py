@@ -1,4 +1,4 @@
-"""InteractiveCurrentAtlas URL Configuration
+"""web_app URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -13,11 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
-from django.contrib import admin
+from django.conf.urls import url
+from . import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    # localhost:8000 will go here
-    url(r'^', include('web_app.urls')),
+    url(r'^$', views.index),
+    url(r'user\.html', views.user),
+    url(r'maps_google\.html', views.maps_google),
+    url(r'maps_leaflet\.html', views.maps_leaflet)
 ]

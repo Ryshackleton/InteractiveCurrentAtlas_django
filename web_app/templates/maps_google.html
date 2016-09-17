@@ -1,0 +1,36 @@
+<!-- load template with header, footer, etc -->
+{% extends 'xlbd_free_template.html' %}
+{% load staticfiles %}
+
+<!-- makes the appropriate list item active in the sidebar for the appropriate page -->
+{% block gmapsactive %} class="active"{% endblock %}
+
+{% block header %}
+    <!--  CSS for Google Maps sizing     -->
+    <link href=" {% static 'assets/css/gmaps.css' %}" rel="stylesheet" />
+{% endblock %}
+
+
+<!-- this page's content here -->
+{% block content %}
+
+    <div id="map"></div>
+
+{%  endblock %}
+<!-- end this page's content -->
+
+
+{% block scripts %}
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNXq86smJ57bYHvUZ5s-n4batu9rtcRG0"></script>
+
+<!-- Javascript for manipulating google maps objects -->
+<script src="{% static 'assets/js/gmaps.js' %}"></script>
+
+<script>
+    $().ready(function(){
+        gmaps.initGoogleMaps();
+    });
+</script>
+
+{% endblock %}

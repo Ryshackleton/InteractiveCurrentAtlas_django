@@ -1,0 +1,45 @@
+<!-- load template with header, footer, etc -->
+{% extends 'xlbd_free_template.html' %}
+{% load staticfiles %}
+
+<!-- makes the appropriate list item active in the sidebar for the appropriate page -->
+{% block leafletactive %} class="active" {% endblock %}
+
+{% block header %}
+    <!--  CSS for Leaflet     -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+    {#    <link rel="stylesheet" href="{%  static 'assets/css/leaflet.css' %}" />#}
+
+    <link href=" {% static 'assets/css/leaflet_local.css' %}" rel="stylesheet" />
+
+{% endblock %}
+
+<!-- this page's content here -->
+{% block content %}
+
+    <div id="leaflet_map"></div>
+{#    <div class="content">#}
+{#        <div class="container-fluid">#}
+{#            <div class="row">#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+{%  endblock %}
+<!-- end this page's content -->
+
+
+{% block scripts %}
+
+    <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+
+    <script src="{% static 'assets/js/leaflet_local.js' %}"></script>
+    <script src="{% static 'assets/js/leaflet.rotatedMarker.js' %}"></script>
+
+    <script>
+        $().ready(function () {
+            leaflet_local.initLeafletMap();
+        });
+    </script>
+
+{% endblock %}
