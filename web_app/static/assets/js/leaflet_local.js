@@ -7,6 +7,8 @@ leaflet_local = {
 
         function buildMapWithPopup(ll,zoomlevel,popupmessage) {
 
+            // MAP OVERLAYS
+            // Mapbox and OpenStreetMap basemaps
             var streetMap = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
                 maxZoom: 18,
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -29,12 +31,13 @@ leaflet_local = {
                 id: 'mapbox.run-bike-hike'
             });
 
-            // TODO: figure out why these image maps generated from ImageServers are always the top overlay regardless of add order
-            var colorDEM = L.esri.imageMapLayer({ url: 'http://gis.ngdc.noaa.gov/arcgis/rest/services/dem_hillshades/ImageServer', opacity: 0.6, transparent: true });
-
             var vectorStreets = L.tileLayer('https://api.mapbox.com/styles/v1/ryshackleton/citdzwfol003x2jpaozq25hao/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnlzaGFja2xldG9uIiwiYSI6ImNpdGR6cmZ6ZTAzN2MyeG85YmV3Z2w2dzcifQ.4t8LHLkY-jt8VUDIyoV4TQ');
 
             var mapboxSatellite = L.tileLayer('https://api.mapbox.com/styles/v1/ryshackleton/cite1mkkb004t2jp2dt3ymh7m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnlzaGFja2xldG9uIiwiYSI6ImNpdGR6cmZ6ZTAzN2MyeG85YmV3Z2w2dzcifQ.4t8LHLkY-jt8VUDIyoV4TQ');
+
+            // BATHYMETRY AND NAVIGATIONAL
+            // TODO: figure out why these image maps generated from ImageServers are always the top overlay regardless of add order
+            var colorDEM = L.esri.imageMapLayer({ url: 'http://gis.ngdc.noaa.gov/arcgis/rest/services/dem_hillshades/ImageServer', opacity: 0.6, transparent: true });
 
             var navCharts = L.esri.imageMapLayer({ url: 'http://seamlessrnc.nauticalcharts.noaa.gov/arcgis/rest/services/RNC/NOAA_RNC/ImageServer', opacity: 0.3, transparent: true });
 
@@ -60,6 +63,7 @@ leaflet_local = {
             //     opacity: 0.6
             // });
 
+            // BUILD BASEMAP GROUP
             var baseMaps = {
                 // "OSM Street Map" : streetMap,
                 "Satellite" : mapboxSatellite,
@@ -69,6 +73,7 @@ leaflet_local = {
                 // "OSM Run Bike Hike Map" : runBikeHikeMap,
             };
 
+            // BUILD OVERLAY GROUP
             var overlayMaps = {
                 "Mapbox Streets" : vectorStreets,
                 "Navigational Charts" : navCharts,
@@ -76,14 +81,23 @@ leaflet_local = {
                 // "NOAA US Coastal Bathymetry " : ngdcmap,
             };
 
+            // CREATE MAP
+            // layers added to the map in the layers: array will be toggled on upon loading
             var map = L.map('leaflet_map', { center:ll, zoom: zoomlevel, layers: [ mapboxSatellite, outdoorMap, navCharts,  esriOcean2 ]});
 
+            // add a layer control, which lets the user toggle between baseMaps and toggle on/off overlayMaps
             L.control.layers(baseMaps,overlayMaps).addTo(map);
 
+            // add a location controller to the map (adds a little blue dot with your current location)
+            // from https://github.com/domoritz/leaflet-locatecontrol
+            L.control.locate().addTo(map);
+
+            // create a popup to show the user location
             var popup = L.popup()
                 .setLatLng(map.getCenter())
                 .setContent(popupmessage)
                 .openOn(map);
+
             return map;
         }
 

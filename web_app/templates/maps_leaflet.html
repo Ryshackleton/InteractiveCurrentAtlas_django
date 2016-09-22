@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
     {#    <link rel="stylesheet" href="{%  static 'assets/css/leaflet.css' %}" />#}
 
+    <!-- CSS to accompany location control in map (the little blue dot showing where you are!) -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+
     <link href=" {% static 'assets/css/leaflet_local.css' %}" rel="stylesheet" />
 
 {% endblock %}
@@ -41,6 +45,9 @@
 
     <!-- Javascript for manipulating notifications -->
     <script src="{% static 'assets/js/notifications.js' %}"></script>
+
+    <!-- Javascript to handle location control in map (the little blue dot showing where you are!) -->
+    <script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
     <!-- Javascript for leaflet specific to this project -->
     <!-- (requires notifications.js) -->
