@@ -13,7 +13,6 @@
 
 <!-- this page's content here -->
 {% block content %}
-
     <div id="map"></div>
 
 {%  endblock %}
@@ -24,7 +23,11 @@
 <!--  Google Maps Plugin    -->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNXq86smJ57bYHvUZ5s-n4batu9rtcRG0"></script>
 
+<!-- Javascript for manipulating notifications -->
+<script src="{% static 'assets/js/notifications.js' %}"></script>
+
 <!-- Javascript for manipulating google maps objects -->
+<!-- (requires notifications.js) -->
 <script src="{% static 'assets/js/gmaps.js' %}"></script>
 
 <script>

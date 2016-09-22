@@ -31,8 +31,19 @@
 
 {% block scripts %}
 
-    <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+    <!-- Javascript leaflet packages -->
+{#    <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>#}
+     <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.3/leaflet.js"></script>
 
+    <!-- ESRI leaflet for handling ESRI ocean basemap -->
+    <script src="https://unpkg.com/esri-leaflet@2.0.3"></script>
+    <script src="https://unpkg.com/esri-leaflet-vector@1.0.2"></script>
+
+    <!-- Javascript for manipulating notifications -->
+    <script src="{% static 'assets/js/notifications.js' %}"></script>
+
+    <!-- Javascript for leaflet specific to this project -->
+    <!-- (requires notifications.js) -->
     <script src="{% static 'assets/js/leaflet_local.js' %}"></script>
     <script src="{% static 'assets/js/leaflet.rotatedMarker.js' %}"></script>
 

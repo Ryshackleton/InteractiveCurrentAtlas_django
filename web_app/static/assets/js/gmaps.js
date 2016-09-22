@@ -2,18 +2,62 @@
  * Created by ryshackleton on 8/30/16.
  * initGoogleMaps modified from Creative Tim's
  *  "light bootstrap dashboard template"
+ *
+ *  Requires: notifications.js for notification handling
  */
 
 gmaps = {
 
     initGoogleMaps: function () {
 
-        // defaults to this location
-        var myLatLng = new google.maps.LatLng(40.748817, -73.985428);
+        var mapOptions = gmaps.getMapOptions(); // map with no center option
+        var notification = notifications.topCenter('info',4000,'Finding your location...')
 
-        var mapOptions = {
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+
+                mapOptions.center = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+                var infoWindow = new google.maps.InfoWindow({map: map});
+                infoWindow.setPosition(map.getCenter());
+                infoWindow.setContent('You are here.');
+
+                // close old notification
+                notification.close();
+
+                // confirm success
+                notifications.topCenter('success',2000,"Location found!");
+
+            }, function() {
+                // close old notification
+                notification.close();
+
+                // confirm success
+                notifications.topCenter('warning',2000,"The geolocation service failed");
+                // handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            mapOptions.center = new google.maps.LatLng(0.0,0.0);
+            mapOptions.zoom = 3;
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            // close old notification
+            notification.close();
+
+            // confirm failure
+            notifications.topCenter('warning',2000,'Browser does not allow geolocation.')
+        }
+
+    },
+
+    // just getting this out of the way
+    getMapOptions: function () {
+        return {
             zoom: 13,
-            center: myLatLng,
+            // center: myLatLng,
             scrollwheel: true, //we enable de scroll over the map
             styles: [{
                 "featureType": "water",
@@ -53,38 +97,7 @@ gmaps = {
                 "featureType": "poi.business",
                 "stylers": [{"visibility": "simplified"}]
             }]
-
         };
-
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-        var infoWindow = new google.maps.InfoWindow({map: map});
-
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                                  'Error: The Geolocation service failed.' :
-                                  'Error: Your browser doesn\'t support geolocation.');
-        }
 
     }
 }
