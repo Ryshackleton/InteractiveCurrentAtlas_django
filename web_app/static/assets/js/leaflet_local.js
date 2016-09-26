@@ -8,51 +8,32 @@ leaflet_local = {
         function buildMapWithPopup(ll,zoomlevel,popupmessage) {
 
             // MAP OVERLAYS
-            // Mapbox and OpenStreetMap basemaps
-            var streetMap = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-                maxZoom: 18,
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                id: 'mapbox.streets'
-            });
-            var outdoorMap = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-                maxZoom: 18,
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                id: 'mapbox.outdoors'
-            });
-            var runBikeHikeMap = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-                maxZoom: 18,
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                id: 'mapbox.run-bike-hike'
-            });
+            // esri version
+            // var satelliteLayer = L.layerGroup([L.esri.basemapLayer('Imagery'),L.esri.basemapLayer('ImageryLabels'),L.esri.basemapLayer('ImageryTransportation')]);
 
-            var vectorStreets = L.tileLayer('https://api.mapbox.com/styles/v1/ryshackleton/citdzwfol003x2jpaozq25hao/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnlzaGFja2xldG9uIiwiYSI6ImNpdGR6cmZ6ZTAzN2MyeG85YmV3Z2w2dzcifQ.4t8LHLkY-jt8VUDIyoV4TQ');
+            // google version (contains Google watermarks)
+            // var satelliteLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+            //      maxZoom: 20,
+            //      subdomains:['mt0','mt1','mt2','mt3']
+            //  });
+            //mapbox version of satellite layer
+            var satelliteLayer = L.tileLayer('https://api.mapbox.com/styles/v1/ryshackleton/cite1mkkb004t2jp2dt3ymh7m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnlzaGFja2xldG9uIiwiYSI6ImNpdGR6cmZ6ZTAzN2MyeG85YmV3Z2w2dzcifQ.4t8LHLkY-jt8VUDIyoV4TQ');
 
-            var mapboxSatellite = L.tileLayer('https://api.mapbox.com/styles/v1/ryshackleton/cite1mkkb004t2jp2dt3ymh7m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnlzaGFja2xldG9uIiwiYSI6ImNpdGR6cmZ6ZTAzN2MyeG85YmV3Z2w2dzcifQ.4t8LHLkY-jt8VUDIyoV4TQ');
 
-            // BATHYMETRY AND NAVIGATIONAL
+            // BATHYMETRY AND NAVIGATION
+            // basic esri ocean, collating all labels to one layergroup
+            var oceanLayer = L.layerGroup([L.esri.basemapLayer('Oceans'),L.esri.basemapLayer('OceansLabels')]);
+
             // TODO: figure out why these image maps generated from ImageServers are always the top overlay regardless of add order
-            var colorDEM = L.esri.imageMapLayer({ url: 'http://gis.ngdc.noaa.gov/arcgis/rest/services/dem_hillshades/ImageServer', opacity: 0.6, transparent: true });
+            // var colorDEM = L.esri.imageMapLayer({ url: 'http://gis.ngdc.noaa.gov/arcgis/rest/services/dem_hillshades/ImageServer', opacity: 1.0, transparent: true, zindex: 3 });
+            var usaTopo = L.esri.basemapLayer('USATopo');
 
-            var navCharts = L.esri.imageMapLayer({ url: 'http://seamlessrnc.nauticalcharts.noaa.gov/arcgis/rest/services/RNC/NOAA_RNC/ImageServer', opacity: 0.3, transparent: true });
+            // navigational charts, will be transparent and always as an optional overlay
+            var navCharts = L.esri.imageMapLayer({ url: 'http://seamlessrnc.nauticalcharts.noaa.gov/arcgis/rest/services/RNC/NOAA_RNC/ImageServer', opacity: 0.35, transparent: true, zindex:2 });
 
-            // TODO: fix this if possible.  Added as an image map layer above, with all the associated layering issues
-            // var navCharts = L.tileLayer('http://seamlessrnc.nauticalcharts.noaa.gov/arcgis/rest/services/RNC/NOAA_RNC/MapServer/WMSServer?',
-            //     {
-            //         layers: 'NOAA_RNC',
-            //         format: 'image/png',
-            //         opacity: 0.7,
-            //         transparent: true,
-            //         maxZoom: 18  } );
-
-            var esriOcean2 = L.esri.basemapLayer('Oceans');
-
-            var esriOceanLabels = L.esri.basemapLayer('OceansLabels');
+            var OpenSeaMap = L.tileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+                attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'
+            });
 
             // NW bathymetry in the San Juan Islands, this is a limited dataset, ditched in favor of the
             // var ngdcmap = L.tileLayer.wms("http://maps.ngdc.noaa.gov/arcgis/services/web_mercator/dem_hillshades/MapServer/WmsServer?", {
@@ -66,24 +47,20 @@ leaflet_local = {
             // BUILD BASEMAP GROUP
             var baseMaps = {
                 // "OSM Street Map" : streetMap,
-                "Satellite" : mapboxSatellite,
-                "Topographic" : outdoorMap,
-                "High Resolution Bathymetry" : colorDEM,
-                "Low Resolution Bathymetry": esriOcean2,
-                // "OSM Run Bike Hike Map" : runBikeHikeMap,
+                "Satellite" : satelliteLayer,
+                "Topographic (Bathymetry)" : usaTopo,
+                "Shaded Relief (Bathymetry)": oceanLayer,
             };
 
             // BUILD OVERLAY GROUP
             var overlayMaps = {
-                "Mapbox Streets" : vectorStreets,
-                "Navigational Charts" : navCharts,
-                "ESRI Ocean Labels" : esriOceanLabels,
-                // "NOAA US Coastal Bathymetry " : ngdcmap,
+                "OpenSeaMap" : OpenSeaMap,
+                "Detailed Navigation Charts" : navCharts
             };
 
             // CREATE MAP
             // layers added to the map in the layers: array will be toggled on upon loading
-            var map = L.map('leaflet_map', { center:ll, zoom: zoomlevel, layers: [ mapboxSatellite, outdoorMap, navCharts,  esriOcean2 ]});
+            var map = L.map('leaflet_map', { center:ll, zoom: zoomlevel, layers: [oceanLayer]});
 
             // add a layer control, which lets the user toggle between baseMaps and toggle on/off overlayMaps
             L.control.layers(baseMaps,overlayMaps).addTo(map);
@@ -93,10 +70,10 @@ leaflet_local = {
             L.control.locate().addTo(map);
 
             // create a popup to show the user location
-            var popup = L.popup()
-                .setLatLng(map.getCenter())
-                .setContent(popupmessage)
-                .openOn(map);
+            // var popup = L.popup()
+            //     .setLatLng(map.getCenter())
+            //     .setContent(popupmessage)
+            //     .openOn(map);
 
             return map;
         }
@@ -131,14 +108,15 @@ leaflet_local = {
         }
 
         // Try HTML5 geolocation.
-        var notification = notifications.topCenter('info',4000,'Finding your location...')
+        var notification = notifications.topCenter('info',4000,'<strong>Finding your location...</strong>')
 
+        var mymap;
         var ll = [51.505, -0.09];
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 ll = [position.coords.latitude,position.coords.longitude];
 
-                var mymap = buildMapWithPopup(ll,13,"You are here.");
+                mymap = buildMapWithPopup(ll,13,"You are here.");
 
                 // setUpRotatingArrowStuff(mymap);
 
@@ -146,19 +124,20 @@ leaflet_local = {
                 notification.close();
 
                 // confirm success
-                notifications.topCenter('success',2000,"Location found!");
+                notifications.topCenter('success',2000,"<strong>Location found!</strong><p>Use the location control button to the left show your location on the map.</p>");
 
             }, function() {
                 // close old notification
                 notification.close();
 
                 // confirm success
-                notifications.topCenter('warning',2000,"The geolocation service failed");
+                notifications.topCenter('warning',2000,"The geolocation service failed.");
                 // handleLocationError(true, infoWindow, map.getCenter());
             });
         } else {
-            var mymap = buildMapWithPopup(ll,5,'No position found.')
-            setUpRotatingArrowStuff(mymap);
+            mymap = buildMapWithPopup(ll,5,'No position found.')
+            // setUpRotatingArrowStuff(mymap);
+            // eqfeed_callback is called once the earthquake geojsonp file below loads
 
             // close old notification
             notification.close();
@@ -167,16 +146,4 @@ leaflet_local = {
             notifications.topCenter('warning',2000,'Browser does not allow geolocation.')
         }
     },
-
-    getMapboxStreetsOptions: function () {
-        return {
-            maxZoom: 18,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: 'mapbox.streets',
-            opacity:0.5
-        };
-    }
-
 }

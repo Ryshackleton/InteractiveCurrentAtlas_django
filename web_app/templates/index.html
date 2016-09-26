@@ -11,8 +11,17 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <h1>Welcome!</h1>
-                    <h3>Instructions and such here...</h3>
+                    {%  if user.is_authenticated %}
+                        {%  if user.first_name != '' %}
+                            <h2>Welcome {{ user.first_name }}!</h2>
+                        {% else %}
+                            <h1>Welcome {{ user.username }}.</h1>
+                        {% endif %}
+                        <p>Check out your maps <a href="maps_leaflet.html">here</a>!</p>
+                    {% else %}
+                        <h2>Welcome!</h2>
+                        <p><a href="user.html">Login </a> to see your maps or, if you don't have an account yet? Create one <a href="createaccount.html">here</a>.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

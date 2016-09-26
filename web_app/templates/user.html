@@ -11,8 +11,28 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <h1>User Profile</h1>
-                    <h3>TODO...</h3>
+                    {%  if user.is_authenticated %}
+                        {%  if user.first_name != '' %}
+                            <h2>Welcome {{ user.first_name }}!</h2>
+                        {% else %}
+                            <h2>Welcome {{ user.username }}.</h2>
+                        {% endif %}
+                        <h3>Your account info is listed below:</h3>
+                        <h4>username: <small>{{ user.username }}</small></h4>
+                        <h4>email address: <small>{{ user.email }}</small></h4>
+                        <h4>First Name: <small>{{ user.first_name }}</small></h4>
+                        <h4>Last Name: <small>{{ user.last_name }}</small></h4>
+                    {% else %}
+                        <h3>Welcome guest.</h3>
+                        <h4>Login</h4>
+                        <form method='POST' action="user.html">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="submit" value="Submit" />
+                        </form>
+                        <br>
+                        <p>Don't have an account yet? Create one <a href="createaccount.html">here</a>!</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

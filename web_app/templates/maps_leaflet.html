@@ -21,13 +21,19 @@
 <!-- this page's content here -->
 {% block content %}
 
-    <div id="leaflet_map"></div>
-{#    <div class="content">#}
-{#        <div class="container-fluid">#}
-{#            <div class="row">#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+
+    {%  if user.is_authenticated %}
+        <div id="leaflet_map"> </div>
+    {% else %}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <h2>Welcome!</h2>
+                    <p><a href="user.html">Login </a> to see your maps or, if you don't have an account yet? Create one <a href="createaccount.html">here</a>.</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
 {%  endblock %}
 <!-- end this page's content -->
@@ -55,9 +61,11 @@
     <script src="{% static 'assets/js/leaflet.rotatedMarker.js' %}"></script>
 
     <script>
-        $().ready(function () {
-            leaflet_local.initLeafletMap();
-        });
+        {% if user.is_authenticated %}
+            $().ready(function () {
+                leaflet_local.initLeafletMap();
+            });
+        {% endif %}
     </script>
 
 {% endblock %}

@@ -6,7 +6,7 @@ notifications = {
     // simple notification to update user on geolocation status
     topCenter: function(notifyType, timeout, message ) {
         return $.notify({
-            icon: "pe-7s-gift",
+            icon: "pe-7s-map-marker",
             message: message
 
         }, {
@@ -14,8 +14,9 @@ notifications = {
             timer: timeout,
             placement: {
                 from: 'top',
-                align: 'center'
-            }
+                align: 'center',
+            },
+            offset: 40
         });
     }
 }
