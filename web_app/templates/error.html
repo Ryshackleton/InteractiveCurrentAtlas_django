@@ -1,0 +1,22 @@
+<!-- load template with header, footer, etc -->
+{% extends 'xlbd_free_template.html' %}
+{% load staticfiles %}
+
+<!-- makes the appropriate list item active in the sidebar for the appropriate page -->
+{#{% block useractive %} class="active"{% endblock %}#}
+
+<!-- this page's content here -->
+{% block content %}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <h3>Error</h3>
+                <h4>{{ message }}</h4>
+            </div>
+        </div>
+    </div>
+
+{%  endblock %}
+<!-- end this page's content -->
+
