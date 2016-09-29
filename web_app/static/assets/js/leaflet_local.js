@@ -3,7 +3,7 @@
  */
 
 leaflet_local = {
-    initLeafletMap: function () {
+    initLeafletMap: function (filestring) {
 
         function buildMapWithPopup(ll,zoomlevel,popupmessage) {
 
@@ -35,6 +35,16 @@ leaflet_local = {
                 attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'
             });
 
+            var lower_low_slack = L.tileLayer('static/data/00_Lower_low_slack/{z}/{x}/{y}.png', {
+                attribution: 'Map data: &copy; <a href="http://nsgl.gso.uri.edu/washu/washuc77001/washuc77001_full.pdf">Tide Prints</a> contributors',
+                minZoom : 8,
+                maxZoom : 17,
+                center : [-122.673141, 47.766598],
+                // type : 'google',
+                unloadInvisibleTiles: true,
+                bounds : [ new L.LatLng(47.0232,-123.181), new L.LatLng(48.51,-122.166)]
+            });
+
             // NW bathymetry in the San Juan Islands, this is a limited dataset, ditched in favor of the
             // var ngdcmap = L.tileLayer.wms("http://maps.ngdc.noaa.gov/arcgis/services/web_mercator/dem_hillshades/MapServer/WmsServer?", {
             //     layers: "DEM Hillshades",
@@ -54,8 +64,9 @@ leaflet_local = {
 
             // BUILD OVERLAY GROUP
             var overlayMaps = {
+                "Currents at Lower Low Slack Tide" : lower_low_slack,
                 "OpenSeaMap" : OpenSeaMap,
-                "Detailed Navigation Charts" : navCharts
+                "Detailed Navigation Charts" : navCharts,
             };
 
             // CREATE MAP

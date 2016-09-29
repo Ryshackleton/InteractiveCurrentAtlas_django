@@ -80,4 +80,3 @@ def logout_request(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-
