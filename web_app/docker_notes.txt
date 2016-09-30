@@ -1,4 +1,4 @@
-
+git clone <url> --branch <branch> --single-branch [<folder>]
 
 npm install -g bower
 pip install django-bower
