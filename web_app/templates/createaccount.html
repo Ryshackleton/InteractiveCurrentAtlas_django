@@ -1,6 +1,6 @@
 
 <!-- load template with header, footer, etc -->
-{% extends 'xlbd_free_template.html' %}
+{% extends 'base_template.html' %}
 {% load staticfiles %}
 
 <!-- makes the appropriate list item active in the sidebar for the appropriate page -->
@@ -21,7 +21,7 @@
                 {% else %}
                     <h3>Create an account below</h3>
                     <p>
-                    <form method="POST" action="createaccount.html">
+                    <form method="POST" action="/createaccount/">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <input type="submit" value="Submit" />

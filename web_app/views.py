@@ -39,7 +39,7 @@ def create_account(request):
                 newU.first_name = form.cleaned_data['userfirst']
                 newU.last_name = form.cleaned_data['userlast']
                 newU.save()
-                return HttpResponseRedirect('user.html')
+                return HttpResponseRedirect('/user/')
     else:
         form = CreateAccountForm()
         return render(request, 'createaccount.html', {'form': form })
@@ -56,7 +56,7 @@ def user(request):
             if usr is not None:
                 if usr.is_active:
                     login(request,usr)
-                    return HttpResponseRedirect('maps_leaflet.html')
+                    return HttpResponseRedirect('/maps_leaflet/')
                 else:
                     return render(request,'error.html', {'message': "Unknown error"})
             else:
@@ -64,7 +64,7 @@ def user(request):
     else:
         form = LoginForm()
         return render(request,'user.html', {'form': form})
-    return HttpResponseRedirect('maps_leaflet.html')
+    return HttpResponseRedirect('/maps_leaflet/')
     # return render(request,'user.html')
 
 

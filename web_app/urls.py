@@ -19,11 +19,11 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index),
-    url(r'^user\.html$', views.user, name='user'),
-    url(r'^maps_google\.html$', views.maps_google),
-    url(r'^maps_leaflet\.html$', views.maps_leaflet),
-    url(r'^createaccount\.html$', views.create_account, name='create_account'),
-    url(r'^logout$', views.logout_request, name='logout_request'),
+    url(r'^user/$', views.user, name='user'),
+    url(r'^maps_google/$', views.maps_google),
+    url(r'^maps_leaflet/$', views.maps_leaflet),
+    url(r'^createaccount/$', views.create_account, name='create_account'),
+    url(r'^logout/$', views.logout_request, name='logout_request'),
     # url(r'^createaccount/$', views.create_account, name='create_account'),
     # url(r'^user/(\w+)/$',views.profile,name='profile'),
     # url(r'^login$', views.login_request, name='login_request'),
