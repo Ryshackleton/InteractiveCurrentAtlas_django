@@ -107,7 +107,8 @@ leaflet_local = {
 
         }
 
-        // Try HTML5 geolocation.
+        let myspin = spinner.startSpinnerOnDiv('leaflet_map');
+
         var notification = notifications.topCenter('info',4000,'<strong>Finding your location...</strong>')
 
         var mymap;
@@ -116,6 +117,7 @@ leaflet_local = {
             navigator.geolocation.getCurrentPosition(function(position) {
                 ll = [position.coords.latitude,position.coords.longitude];
 
+                myspin.stop();
                 mymap = buildMapWithPopup(ll,13,"You are here.");
 
                 // setUpRotatingArrowStuff(mymap);
@@ -135,6 +137,7 @@ leaflet_local = {
                 // handleLocationError(true, infoWindow, map.getCenter());
             });
         } else {
+            myspin.stop();
             mymap = buildMapWithPopup(ll,5,'No position found.')
             // setUpRotatingArrowStuff(mymap);
             // eqfeed_callback is called once the earthquake geojsonp file below loads
