@@ -60,7 +60,7 @@
 
                 </li>
 {#                <li {% block useractive %}{% endblock %}>#}
-{#                    <a href="user.html">#}
+{#                    <a href="/user/">#}
 {#                        <i class="pe-7s-user"></i>#}
 {#                        {% if user.is_authenticated %}#}
 {#                            <p>{{ user.username }}'s Account</p>#}
@@ -71,13 +71,13 @@
 {#                </li>#}
             {% if user.is_authenticated %}
                 <li {% block gmapsactive %}{% endblock %}>
-                    <a href="maps_google.html">
+                    <a href="/maps_google/">
                         <i class="pe-7s-map-marker"></i>
                         <p>Maps (Google)</p>
                     </a>
                 </li>
                 <li {% block leafletactive %}{% endblock %}>
-                    <a href="maps_leaflet.html" >
+                    <a href="/maps_leaflet/" >
                         <i class="pe-7s-map-marker"></i>
                         <p>Maps (Leaflet)</p>
                     </a>
@@ -112,20 +112,20 @@
                     <ul class="nav navbar-nav navbar-right">
                             {%  if user.is_authenticated %}
                                 <li>
-                                    <a href="user.html">
+                                    <a href="/user/">
                                         <i class="pe-7s-user"></i>
                                         {{ user.username }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="logout">
+                                    <a href="/logout/">
                                         <i class="pe-7s-lock"></i>
                                         logout
                                     </a>
                                 </li>
                             {% else %}
                                 <li>
-                                <a href="user.html">
+                                <a href="/user/">
                                     <i class="pe-7s-unlock"></i>
                                     login
                                 </a>

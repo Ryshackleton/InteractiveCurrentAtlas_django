@@ -3,7 +3,7 @@
  */
 
 leaflet_local = {
-    initLeafletMap: function () {
+    initLeafletMap: function (filestring) {
 
         function buildMapWithPopup(ll,zoomlevel,popupmessage) {
 
@@ -35,6 +35,22 @@ leaflet_local = {
                 attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'
             });
 
+            // var lower_low_slack = L.tileLayer('static/data/00_Lower_low_slack/{z}/{x}/{y}.png', {
+            //     attribution: 'Map data: &copy; <a href="http://nsgl.gso.uri.edu/washu/washuc77001/washuc77001_full.pdf">Tide Prints</a> contributors',
+            //     minZoom : 8,
+            //     maxZoom : 15,
+            //     center : [-122.673141, 47.766598],
+            //     bounds : [ new L.LatLng(47.0232,-123.181), new L.LatLng(48.51,-122.166)]
+            // });
+
+            // var mid_large_flood = L.tileLayer('static/data/01_Mid_tide_large_flood/{z}/{x}/{y}.png', {
+            //     attribution: 'Map data: &copy; <a href="http://nsgl.gso.uri.edu/washu/washuc77001/washuc77001_full.pdf">Tide Prints</a> contributors',
+            //     minZoom : 8,
+            //     maxZoom : 16,
+            //     center : [-122.673141, 47.766598],
+            //     bounds : [ new L.LatLng(47.0232,-123.181), new L.LatLng(48.51,-122.166)]
+            // });
+
             // NW bathymetry in the San Juan Islands, this is a limited dataset, ditched in favor of the
             // var ngdcmap = L.tileLayer.wms("http://maps.ngdc.noaa.gov/arcgis/services/web_mercator/dem_hillshades/MapServer/WmsServer?", {
             //     layers: "DEM Hillshades",
@@ -54,8 +70,10 @@ leaflet_local = {
 
             // BUILD OVERLAY GROUP
             var overlayMaps = {
+                // "Currents at Lower Low Slack Tide" : lower_low_slack,
+                // "Currents at Mid Tide Large Flood" : mid_large_flood,
                 "OpenSeaMap" : OpenSeaMap,
-                "Detailed Navigation Charts" : navCharts
+                "Detailed Navigation Charts" : navCharts,
             };
 
             // CREATE MAP
@@ -112,7 +130,7 @@ leaflet_local = {
         var notification = notifications.topCenter('info',4000,'<strong>Finding your location...</strong>')
 
         var mymap;
-        var ll = [51.505, -0.09];
+        var ll = [47.538178, -122.493966]; // centered over Blake Island in Puget Sound at the moment
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 ll = [position.coords.latitude,position.coords.longitude];
@@ -135,6 +153,8 @@ leaflet_local = {
                 // confirm success
                 notifications.topCenter('warning',2000,"The geolocation service failed.");
                 // handleLocationError(true, infoWindow, map.getCenter());
+
+                mymap = buildMapWithPopup(ll,11,"You are here.");
             });
         } else {
             myspin.stop();

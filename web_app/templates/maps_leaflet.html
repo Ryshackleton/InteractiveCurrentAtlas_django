@@ -1,5 +1,5 @@
 <!-- load template with header, footer, etc -->
-{% extends 'xlbd_free_template.html' %}
+{% extends 'base_template.html' %}
 {% load staticfiles %}
 
 <!-- makes the appropriate list item active in the sidebar for the appropriate page -->
@@ -29,7 +29,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <h2>Welcome!</h2>
-                    <p><a href="user.html">Login </a> to see your maps or, if you don't have an account yet? Create one <a href="createaccount.html">here</a>.</p>
+                    <p><a href="/user/">Login </a> to see your maps or, if you don't have an account yet? Create one <a href="/createaccount/">here</a>.</p>
                 </div>
             </div>
         </div>
@@ -65,6 +65,7 @@
             $().ready(function () {
                 leaflet_local.initLeafletMap();
             });
+
         {% endif %}
     </script>
 
