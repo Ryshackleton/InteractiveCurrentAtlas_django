@@ -63,9 +63,11 @@
     <script>
         {% if user.is_authenticated %}
             $().ready(function () {
-                leaflet_local.initLeafletMap();
+                // initialize map with or without notifications
+                let divTag = 'leaflet_map';
+                let doNotification = true;
+                leaflet_local.initMap(divTag,doNotification);
             });
-
         {% endif %}
     </script>
 

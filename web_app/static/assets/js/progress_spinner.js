@@ -8,7 +8,36 @@
 
 /** helper functions */
 
-spinner = {
+progress_spinner = {
+
+    /** convenience method to return spin options
+     *
+     * @return an object with spin objects for the Spinner class
+     */
+    getSpinOpts: function () {
+        return {
+            lines: 13 // The number of lines to draw
+            , length: 28 // The length of each line
+            , width: 13 // The line thickness
+            , radius: 41 // The radius of the inner circle
+            , scale: 0.3 // Scales overall size of the spinner
+            , corners: 1 // Corner roundness (0..1)
+            , color: '#000' // #rgb or #rrggbb or array of colors
+            , opacity: 0.35 // Opacity of the lines
+            , rotate: 0 // The rotation offset
+            , direction: 1 // 1: clockwise, -1: counterclockwise
+            , speed: 1 // Rounds per second
+            , trail: 41 // Afterglow percentage
+            , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+            , zIndex: 2e9 // The z-index (defaults to 2000000000)
+            , className: 'spinner' // The CSS class to assign to the spinner
+            , top: '50%' // Top position relative to parent
+            , left: '50%' // Left position relative to parent
+            , shadow: false // Whether to render a shadow
+            , hwaccel: false // Whether to use hardware acceleration
+            , position: 'absolute' // Element positioning
+        }
+    },
 
     /** creates a spinner on the target div (e.g. 'div_with_map')
      *
@@ -18,31 +47,9 @@ spinner = {
      *          ...
      *          mySpinner.stop();
      */
-    startSpinnerOnDiv: function(targetDiv){
-        let spinOpts = {
-          lines: 13 // The number of lines to draw
-        , length: 28 // The length of each line
-        , width: 13 // The line thickness
-        , radius: 41 // The radius of the inner circle
-        , scale: 1 // Scales overall size of the spinner
-        , corners: 1 // Corner roundness (0..1)
-        , color: '#000' // #rgb or #rrggbb or array of colors
-        , opacity: 0.35 // Opacity of the lines
-        , rotate: 0 // The rotation offset
-        , direction: 1 // 1: clockwise, -1: counterclockwise
-        , speed: 1 // Rounds per second
-        , trail: 41 // Afterglow percentage
-        , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-        , zIndex: 2e9 // The z-index (defaults to 2000000000)
-        , className: 'spinner' // The CSS class to assign to the spinner
-        , top: '50%' // Top position relative to parent
-        , left: '50%' // Left position relative to parent
-        , shadow: false // Whether to render a shadow
-        , hwaccel: false // Whether to use hardware acceleration
-        , position: 'absolute' // Element positioning
-        }
+    startSpinnerOnDiv: function( targetDiv ){
         let target = document.getElementById(targetDiv)
-        return new Spinner(spinOpts).spin(target);
+        return new Spinner(this.getSpinOpts()).spin(target);
     }
 
 };

@@ -10,17 +10,20 @@ gmaps = {
 
     initGoogleMaps: function () {
 
-        var mapOptions = gmaps.getMapOptions(); // map with no center option
-        var notification = notifications.topCenter('info',4000,'Finding your location...')
+        let mapOptions = gmaps.getMapOptions(); // map with no center option
+        let notification = notifications.topCenter('info',4000,'Finding your location...')
+        let spinner = progress_spinner.startSpinnerOnDiv('map');
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
 
-                mapOptions.center = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+                spinner.stop();
 
-                var infoWindow = new google.maps.InfoWindow({map: map});
+                mapOptions.center = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                let map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+                let infoWindow = new google.maps.InfoWindow({map: map});
                 infoWindow.setPosition(map.getCenter());
                 infoWindow.setContent('You are here.');
 
@@ -33,19 +36,22 @@ gmaps = {
             }, function() {
                 // close old notification
                 notification.close();
+                spinner.stop();
 
                 // confirm success
                 notifications.topCenter('warning',2000,"The geolocation service failed");
                 // handleLocationError(true, infoWindow, map.getCenter());
             });
         } else {
+            // close old notification
+            notification.close();
+            spinner.stop();
+
             // Browser doesn't support Geolocation
             mapOptions.center = new google.maps.LatLng(0.0,0.0);
             mapOptions.zoom = 3;
-            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            let map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-            // close old notification
-            notification.close();
 
             // confirm failure
             notifications.topCenter('warning',2000,'Browser does not allow geolocation.')
