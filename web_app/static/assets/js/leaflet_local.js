@@ -3,7 +3,6 @@
  */
 
 <!-- some constants -->
-const PUGET_TILES_BASE_URL = 'http://currentatlastiles.s3-website-us-west-2.amazonaws.com';
 const DEFAULT_LOCATION = [47.538178, -122.493966]; // default location, centered over Blake Island in Puget Sound at the moment
 
 leaflet_local = {
@@ -92,21 +91,22 @@ leaflet_local = {
                 attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'
             });
 
-            let lower_low_slack = L.tileLayer(`${PUGET_TILES_BASE_URL}/tiles/00_Lower_low_slack/{z}/{x}/{y}.png`, {
-                attribution: 'Map data: &copy; <a href="http://nsgl.gso.uri.edu/washu/washuc77001/washuc77001_full.pdf">Tide Prints</a> contributors',
-                minZoom : 8,
-                maxZoom : 15,
-                center : [-122.673141, 47.766598],
-                bounds : [ new L.LatLng(47.0232,-123.181), new L.LatLng(48.51,-122.166)]
-            });
-
-            let mid_large_flood = L.tileLayer(`${PUGET_TILES_BASE_URL}/tiles/01_Mid_tide_large_flood/{z}/{x}/{y}.png`, {
-                attribution: 'Map data: &copy; <a href="http://nsgl.gso.uri.edu/washu/washuc77001/washuc77001_full.pdf">Tide Prints</a> contributors',
-                minZoom : 8,
-                maxZoom : 16,
-                center : [-122.673141, 47.766598],
-                bounds : [ new L.LatLng(47.0232,-123.181), new L.LatLng(48.51,-122.166)]
-            });
+            // let lower_low_slack_obj = new PugetTidalCurrentStage(true,false,'00_Lower_low_slack');
+            // let lower_low_slack = L.tileLayer(lower_low_slack_obj.tileFolderOnServer(), {
+            //     attribution: 'Map data: &copy; <a href="http://nsgl.gso.uri.edu/washu/washuc77001/washuc77001_full.pdf">Tide Prints</a> contributors',
+            //     minZoom : 8,
+            //     maxZoom : 15,
+            //     center : [-122.673141, 47.766598],
+            //     bounds : [ new L.LatLng(47.0232,-123.181), new L.LatLng(48.51,-122.166)]
+            // });
+            //
+            // let mid_large_flood = L.tileLayer(`${PUGET_TILES_BASE_URL}/tiles/01_Mid_tide_large_flood/{z}/{x}/{y}.png`, {
+            //     attribution: 'Map data: &copy; <a href="http://nsgl.gso.uri.edu/washu/washuc77001/washuc77001_full.pdf">Tide Prints</a> contributors',
+            //     minZoom : 8,
+            //     maxZoom : 16,
+            //     center : [-122.673141, 47.766598],
+            //     bounds : [ new L.LatLng(47.0232,-123.181), new L.LatLng(48.51,-122.166)]
+            // });
 
             // BUILD BASEMAP GROUP
             let baseMaps = {
@@ -118,11 +118,15 @@ leaflet_local = {
 
             // BUILD OVERLAY GROUP
             let overlayMaps = {
-                "Currents: Lower Low Slack Tide" : lower_low_slack,
-                "Currents: Mid Tide Large Flood" : mid_large_flood,
+                // "Currents: Lower Low Slack Tide" : lower_low_slack,
+                // "Currents: Mid Tide Large Flood" : mid_large_flood,
                 "OpenSeaMap" : OpenSeaMap,
                 "Detailed Navigation Charts" : navCharts,
             };
+            let tidePrints = defaultPugetTidalCurrentStages();
+            for(let stage of tidePrints){
+                overlayMaps[stage.name] = stage.leafletTileLayer();
+            }
 
             // CREATE MAP
             // layers added to the map in the layers: array will be toggled on upon loading
@@ -170,6 +174,6 @@ leaflet_local = {
             }
 
             theMap.on('click', onMapClick);
-        };
+        }
     },
 }
