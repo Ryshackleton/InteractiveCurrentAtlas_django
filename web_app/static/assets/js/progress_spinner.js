@@ -48,7 +48,7 @@ progress_spinner = {
      *          mySpinner.stop();
      */
     startSpinnerOnDiv: function( targetDiv ){
-        let target = document.getElementById(targetDiv)
+        let target = document.getElementById(targetDiv);
         return new Spinner(this.getSpinOpts()).spin(target);
     }
 
